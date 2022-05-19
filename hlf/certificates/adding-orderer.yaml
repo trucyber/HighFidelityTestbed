@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: add-certs
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: add-certs
+    spec:
+      volumes:
+        - name: fabricfiles
+          persistentVolumeClaim:
+            claimName: hlfpvc
+      containers:
+        - name: add-certs
+          image: hyperledger/fabric-ca-tools:latest
+          resources:
+            requests:
+              memory: "300Mi"
+              cpu: "300m"
+            limits:
+              memory: "500Mi"
+              cpu: "350m"
+          volumeMounts:
+            - mountPath: /organizations
+              name: fabricfiles
+              subPath: organizations
+            - mountPath: /scripts
+              name: fabricfiles
+              subPath: scripts
+          command:
+            - /bin/sh
+            - -c
+            - |
+              ./scripts/adding-orderer-certs.sh
+      restartPolicy: Never

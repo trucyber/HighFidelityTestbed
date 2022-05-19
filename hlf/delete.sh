@@ -1,0 +1,9 @@
+kubectl delete deployment ca-orderer -n hlf
+kubectl delete deployment ca-org1 -n hlf
+kubectl delete deployment ca-org2 -n hlf
+kubectl delete deployment ca-org3 -n hlf
+kubectl delete service ca-org3 -n hlf
+kubectl delete service ca-org1 -n hlf
+kubectl delete service ca-org2 -n hlf
+kubectl delete service ca-orderer -n hlf
+kubectl delete job create-certs -n hlf
